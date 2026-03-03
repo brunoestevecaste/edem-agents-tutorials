@@ -1,7 +1,7 @@
 """Model configuration — switch between Gemini and Groq via MODEL_PROVIDER env var.
 
 Usage in agent files:
-    from model_config import get_model
+    from tutorials.model_config import get_model
     root_agent = Agent(model=get_model(), ...)
 
 Set MODEL_PROVIDER=groq to use Groq (requires GROQ_API_KEY).

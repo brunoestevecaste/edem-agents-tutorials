@@ -4,7 +4,15 @@ import math
 
 from google.adk import Agent
 
-from model_config import get_model
+try:
+    from tutorials.model_config import get_model
+except ModuleNotFoundError:
+    from pathlib import Path
+    import sys
+
+    tutorials_dir = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(tutorials_dir))
+    from model_config import get_model
 
 
 def compute_mean(numbers: list[float]) -> float:

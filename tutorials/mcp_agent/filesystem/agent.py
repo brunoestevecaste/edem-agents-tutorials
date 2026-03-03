@@ -1,41 +1,41 @@
-"""ADK agent with MCP tool: uses the filesystem MCP server to explore files."""
+"""ADK agent with MCP tools from a local notes MCP server."""
 
 import os
 
 from google.adk import Agent
 from google.adk.tools.mcp_tool import McpToolset
-from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
-from mcp import StdioServerParameters
+from google.adk.tools.mcp_tool.mcp_session_manager import SseConnectionParams
 
-from model_config import get_model
+try:
+    from tutorials.model_config import get_model
+except ModuleNotFoundError:
+    from pathlib import Path
+    import sys
 
-SANDBOX_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sandbox")
+    tutorials_dir = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(tutorials_dir))
+    from model_config import get_model
+
+MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:9001/sse")
 
 root_agent = Agent(
     model=get_model(),
     name="filesystem_agent",
-    description="Explores and reads files in a sandbox directory using MCP filesystem tools.",
+    description="Manages simple text notes using MCP tools.",
     instruction=(
-        "You are a file-system assistant. You help the user explore and read files "
-        "in the sandbox directory.\n"
-        "Use the available tools to list directories and read file contents.\n"
-        "When listing files, present the results clearly.\n"
-        "When reading a file, show its full content."
+        "You are a notes assistant.\n"
+        "Use create_note to save notes.\n"
+        "Use list_notes to show available notes.\n"
+        "Use read_note to read a specific note.\n"
+        "Do not invent note content. Always use tools."
     ),
     tools=[
         McpToolset(
-            connection_params=StdioConnectionParams(
+            connection_params=SseConnectionParams(
+                url=MCP_SERVER_URL,
                 timeout=30,
-                server_params=StdioServerParameters(
-                    command="npx",
-                    args=[
-                        "-y",
-                        "@modelcontextprotocol/server-filesystem",
-                        SANDBOX_PATH,
-                    ],
-                ),
             ),
-            tool_filter=["list_directory", "read_file"],
+            tool_filter=["create_note", "list_notes", "read_note"],
         ),
     ],
 )

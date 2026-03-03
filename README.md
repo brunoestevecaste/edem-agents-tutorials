@@ -47,7 +47,7 @@ A supervisor agent orchestrating two local sub-agents (dice roller + stats calcu
 
 ### 3. ADK Agent with MCP Tool
 
-An agent that gets its tools from an external MCP filesystem server. Requires Node.js/npx. See `tutorials/mcp_agent/README.md`.
+A step-by-step MCP tutorial: run a separate notes MCP server and connect to it from both a standalone client and an ADK agent. See `tutorials/mcp_agent/README.md`.
 
 ### 4. Remote A2A Agents
 

@@ -7,7 +7,15 @@ from google.adk.agents.remote_a2a_agent import AGENT_CARD_WELL_KNOWN_PATH
 from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
 from google.adk.tools.agent_tool import AgentTool
 
-from model_config import get_model
+try:
+    from tutorials.model_config import get_model
+except ModuleNotFoundError:
+    from pathlib import Path
+    import sys
+
+    tutorials_dir = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(tutorials_dir))
+    from model_config import get_model
 
 roll_die_tool = AgentTool(
     agent=RemoteA2aAgent(

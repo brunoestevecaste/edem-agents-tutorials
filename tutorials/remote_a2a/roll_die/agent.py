@@ -9,7 +9,15 @@ from google.adk.examples.example import Example
 from google.adk.tools.example_tool import ExampleTool
 from google.genai import types
 
-from model_config import get_model
+try:
+    from tutorials.model_config import get_model
+except ModuleNotFoundError:
+    from pathlib import Path
+    import sys
+
+    tutorials_dir = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(tutorials_dir))
+    from model_config import get_model
 
 
 def roll_die(sides: int) -> int:

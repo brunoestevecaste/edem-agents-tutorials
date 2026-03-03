@@ -3,7 +3,15 @@
 from google.adk import Agent
 from google.adk.tools.agent_tool import AgentTool
 
-from model_config import get_model
+try:
+    from tutorials.model_config import get_model
+except ModuleNotFoundError:
+    from pathlib import Path
+    import sys
+
+    tutorials_dir = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(tutorials_dir))
+    from model_config import get_model
 from roll_die_agent import roll_die_agent
 from stats_agent import stats_agent
 
