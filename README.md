@@ -53,6 +53,14 @@ A step-by-step MCP tutorial: run a separate notes MCP server and connect to it f
 
 Three remote agents communicating via the A2A protocol, each with its own agent card and HTTP server. See `tutorials/remote_a2a/README.md`.
 
+### 5. Sequential Workflow Agent
+
+A deterministic pipeline using `SequentialAgent`: two sub-agents run in a fixed order defined in code (researcher then summarizer), not decided by an LLM. See `tutorials/sequential_agent/README.md`.
+
+### 6. LLM Pipeline
+
+A chain of pure LLM calls (no tools) executed in a fixed sequence — extract topics, classify sentiment, compose a briefing. See `tutorials/llm_pipeline/README.md`.
+
 ## Notebooks
 
 Install notebook dependencies and start Jupyter:

@@ -27,6 +27,9 @@ wheels = [
 name = "agents-tutorials"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "nest-asyncio" },
+]
 
 [package.optional-dependencies]
 adk = [
@@ -55,6 +58,7 @@ requires-dist = [
     { name = "ipykernel", marker = "extra == 'notebooks'", specifier = ">=6.0" },
     { name = "jupyter", marker = "extra == 'notebooks'", specifier = ">=1.0" },
     { name = "litellm", marker = "extra == 'adk'", specifier = ">=1.0" },
+    { name = "nest-asyncio", extras = ["notebooks"], specifier = ">=1.6.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.4" },
     { name = "uvicorn", marker = "extra == 'adk'", specifier = ">=0.30" },

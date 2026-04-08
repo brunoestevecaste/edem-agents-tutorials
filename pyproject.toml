@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Agents tutorials and examples"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "nest-asyncio[notebooks]>=1.6.0",
+]
 
 [project.optional-dependencies]
 dev = [
