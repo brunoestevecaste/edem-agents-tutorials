@@ -4,15 +4,19 @@
 sources:
   bigquery_source:
     kind: bigquery
-    project: ${GOOGLE_CLOUD_PROJECT}
+    billing_project: ${GOOGLE_CLOUD_PROJECT}
+    project: ${BIGQUERY_DATASET_PROJECT}
+    dataset: ${BIGQUERY_DATASET}
     location: ${BIGQUERY_LOCATION}
+    max_bytes_billed: ${BIGQUERY_MAX_BYTES_BILLED}
+    allowed_tables: ${BIGQUERY_ALLOWED_TABLES}
 
 tools:
   list_tables:
-    description: List available BigQuery tables for the configured dataset.
+    description: List enabled TheLook ecommerce tables.
 
   get_table_schema:
     description: Get schema and metadata for a BigQuery table.
 
   run_read_only_query:
-    description: Execute a read-only SQL query against BigQuery.
+    description: Execute one guarded read-only SELECT query against the configured dataset.

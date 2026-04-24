@@ -29,18 +29,28 @@ class MockRagService:
         self._docs: list[RetrievedDocument] = [
             RetrievedDocument(
                 id="policy-1",
-                source="policy_handbook.md",
-                content="Revenue recognition requires signed contracts and delivery acceptance.",
+                source="revenue_recognition_policy.md",
+                content="Revenue is recognized when an order is shipped and payment is captured.",
             ),
             RetrievedDocument(
                 id="policy-2",
                 source="refund_policy.md",
-                content="Enterprise customers may request refunds within 30 days with VP approval.",
+                content="Product categories with return rates above 12 percent require weekly review.",
             ),
             RetrievedDocument(
                 id="policy-3",
-                source="regional_thresholds.md",
-                content="EMEA compliance threshold is quarterly sales above 1,000,000 USD.",
+                source="inventory_risk_policy.md",
+                content="Products with high sales and low remaining inventory should be restocking priorities.",
+            ),
+            RetrievedDocument(
+                id="policy-4",
+                source="regional_sales_targets.md",
+                content="Regions below monthly sales targets require an action plan from the retail operations team.",
+            ),
+            RetrievedDocument(
+                id="policy-5",
+                source="marketing_kpi_definitions.md",
+                content="Conversion trends should be interpreted by traffic source, order count, and revenue.",
             ),
         ]
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.project.services.rag_service import RagService
+from services.rag_service import RagService
 
 
 class RagRetrievalTool:

@@ -4,9 +4,9 @@ import pytest
 
 pytest.importorskip("google.adk")
 
-from src.project.agents.agent import root_agent
-from src.project.agents.rag_agent import rag_agent
-from src.project.agents.talk_with_data_agent import talk_with_data_agent
+from orchestrator.agent import root_agent
+from orchestrator.rag_agent import rag_agent
+from orchestrator.talk_with_data_agent import talk_with_data_agent
 
 
 def test_agents_are_named() -> None:

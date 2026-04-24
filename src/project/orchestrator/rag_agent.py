@@ -2,9 +2,8 @@
 
 from google.adk import Agent
 
-from tutorials.model_config import get_model
-
-from src.project.services.rag_service import MockRagService
+from config.model import get_model
+from services.rag_service import MockRagService
 
 rag = MockRagService()
 

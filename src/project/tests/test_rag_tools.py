@@ -1,10 +1,10 @@
 """Tests for RAG retrieval tools."""
 
-from src.project.services.rag_service import MockRagService
+from services.rag_service import MockRagService
 
 
 def test_rag_service_retrieves_matching_context() -> None:
-    docs = MockRagService().retrieve("Enterprise customers may request refunds")
+    docs = MockRagService().retrieve("return rates product categories")
     assert docs
     assert docs[0]["source"] == "refund_policy.md"
 
