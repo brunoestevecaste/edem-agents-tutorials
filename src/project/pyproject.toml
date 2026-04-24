@@ -1,0 +1,17 @@
+[project]
+name = "adk-talk-with-data-rag-project"
+version = "0.1.0"
+description = "Educational multi-agent project: Orchestrator + RAG + Talk with Data using ADK-friendly abstractions"
+requires-python = ">=3.10"
+dependencies = [
+  "google-adk[a2a]>=0.3",
+  "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["../..", "."]
+testpaths = ["src/project/tests"]

@@ -1,0 +1,18 @@
+# Conceptual MCP toolbox config for BigQuery.
+# Exact syntax may differ by MCP toolbox version.
+
+sources:
+  bigquery_source:
+    kind: bigquery
+    project: ${GOOGLE_CLOUD_PROJECT}
+    location: ${BIGQUERY_LOCATION}
+
+tools:
+  list_tables:
+    description: List available BigQuery tables for the configured dataset.
+
+  get_table_schema:
+    description: Get schema and metadata for a BigQuery table.
+
+  run_read_only_query:
+    description: Execute a read-only SQL query against BigQuery.
