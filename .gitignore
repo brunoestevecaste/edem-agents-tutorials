@@ -29,3 +29,12 @@ build/
 *.adk
 
 .deepeval/
+**/sandbox/*
+!src/tutorials/t05_mcp_agent/filesystem/sandbox/
+!src/tutorials/t05_mcp_agent/filesystem/sandbox/sample.txt
+!src/tutorials/t05_mcp_agent/filesystem/sandbox/welcome.md
+
+# Generated local RAG downloads and indexes
+src/tutorials/t09_local_rag_agent/downloads/
+src/tutorials/t09_local_rag_agent/storage/
+src/tutorials/t10_vertex_search_agent/downloads/

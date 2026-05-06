@@ -1,4 +1,0 @@
-TODO list:
-- Learn about ADK agents
-- Try MCP integration
-- Build a multi-agent system
