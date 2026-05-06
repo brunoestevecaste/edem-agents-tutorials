@@ -26,6 +26,12 @@ notebooks = [
 eval = [
     "deepeval>=2.0",
 ]
+rag = [
+    "faiss-cpu>=1.13.2",
+    "google-adk[extensions]>=1.26.0",
+    "google-cloud-storage>=3.9.0",
+    "llama-index-vector-stores-faiss>=0.6.0",
+]
 
 [build-system]
 requires = ["hatchling"]

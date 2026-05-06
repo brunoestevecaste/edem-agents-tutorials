@@ -30,9 +30,7 @@ async def _run_async(input_text: str) -> AgentTrace:
     async for event in runner.run_async(
         user_id="eval_user",
         session_id=session.id,
-        new_message=types.Content(
-            role="user", parts=[types.Part(text=input_text)]
-        ),
+        new_message=types.Content(role="user", parts=[types.Part(text=input_text)]),
     ):
         for fc in event.get_function_calls():
             args = dict(fc.args or {})

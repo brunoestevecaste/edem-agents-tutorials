@@ -80,10 +80,28 @@ class MockBigQueryService:
 
     def __init__(self) -> None:
         self._tables = {
-            "users": [{"id": 1, "country": "USA", "age": 34, "traffic_source": "Search"}],
-            "orders": [{"order_id": 101, "user_id": 1, "status": "Shipped", "created_at": "2024-01-15"}],
-            "order_items": [{"order_id": 101, "product_id": 501, "sale_price": 89.99, "status": "Shipped"}],
-            "products": [{"id": 501, "category": "Outerwear", "name": "Wool Coat", "cost": 42.50}],
+            "users": [
+                {"id": 1, "country": "USA", "age": 34, "traffic_source": "Search"}
+            ],
+            "orders": [
+                {
+                    "order_id": 101,
+                    "user_id": 1,
+                    "status": "Shipped",
+                    "created_at": "2024-01-15",
+                }
+            ],
+            "order_items": [
+                {
+                    "order_id": 101,
+                    "product_id": 501,
+                    "sale_price": 89.99,
+                    "status": "Shipped",
+                }
+            ],
+            "products": [
+                {"id": 501, "category": "Outerwear", "name": "Wool Coat", "cost": 42.50}
+            ],
             "inventory_items": [{"product_id": 501, "sold_at": None, "cost": 42.50}],
         }
 
@@ -98,7 +116,9 @@ class MockBigQueryService:
         sample = self._tables[table_name][0]
         return {
             "table": table_name,
-            "columns": [{"name": col, "type": type(val).__name__} for col, val in sample.items()],
+            "columns": [
+                {"name": col, "type": type(val).__name__} for col, val in sample.items()
+            ],
         }
 
     def run_read_only_query(self, sql: str) -> QueryResult:
@@ -106,7 +126,10 @@ class MockBigQueryService:
         logger.info("[MOCK BigQuery] run_read_only_query sql=%s", cleaned)
         lowered = cleaned.lower()
         for table_name, rows in self._tables.items():
-            if f"from {table_name}" in lowered or f"thelook_ecommerce.{table_name}" in lowered:
+            if (
+                f"from {table_name}" in lowered
+                or f"thelook_ecommerce.{table_name}" in lowered
+            ):
                 return QueryResult(rows=rows, sql=cleaned)
         return QueryResult(rows=[], sql=cleaned)
 
@@ -127,9 +150,13 @@ class RealBigQueryService:
         client: Any | None = None,
     ) -> None:
         if bigquery is None:
-            raise RuntimeError("Install `google-cloud-bigquery` to use RealBigQueryService.")
+            raise RuntimeError(
+                "Install `google-cloud-bigquery` to use RealBigQueryService."
+            )
         if not project_id:
-            raise ValueError("GOOGLE_CLOUD_PROJECT is required for RealBigQueryService.")
+            raise ValueError(
+                "GOOGLE_CLOUD_PROJECT is required for RealBigQueryService."
+            )
         if not PROJECT_ID_RE.fullmatch(dataset_project_id):
             raise ValueError("BIGQUERY_DATASET_PROJECT must be a valid project id.")
         if not TABLE_ID_RE.fullmatch(dataset_id):
@@ -163,7 +190,9 @@ class RealBigQueryService:
             self.dataset_id,
         )
         tables = self.client.list_tables(self.default_dataset)
-        return sorted(table.table_id for table in tables if table.table_id in self.allowed_tables)
+        return sorted(
+            table.table_id for table in tables if table.table_id in self.allowed_tables
+        )
 
     def get_table_schema(self, table_name: str) -> dict[str, Any]:
         logger.info(
@@ -197,15 +226,25 @@ class RealBigQueryService:
             use_legacy_sql=False,
             use_query_cache=False,
         )
-        dry_run = self.client.query(cleaned, job_config=dry_run_config, location=self.location)
+        dry_run = self.client.query(
+            cleaned, job_config=dry_run_config, location=self.location
+        )
         logger.info(
             "[REAL BigQuery] dry_run ok bytes_processed=%s referenced_tables=%s",
             dry_run.total_bytes_processed,
-            [f"{t.project}.{t.dataset_id}.{t.table_id}" for t in (dry_run.referenced_tables or [])],
+            [
+                f"{t.project}.{t.dataset_id}.{t.table_id}"
+                for t in (dry_run.referenced_tables or [])
+            ],
         )
         for table in dry_run.referenced_tables or []:
-            if table.project != self.dataset_project_id or table.dataset_id != self.dataset_id:
-                raise ValueError("Query may only reference tables in the configured dataset.")
+            if (
+                table.project != self.dataset_project_id
+                or table.dataset_id != self.dataset_id
+            ):
+                raise ValueError(
+                    "Query may only reference tables in the configured dataset."
+                )
             if table.table_id not in self.allowed_tables:
                 raise ValueError("Query may only reference allowed TheLook tables.")
 
@@ -216,19 +255,26 @@ class RealBigQueryService:
             labels={"app": "agents-tutorials", "component": "talk-with-data"},
         )
         logger.info("[REAL BigQuery] executing query job")
-        query_job = self.client.query(cleaned, job_config=job_config, location=self.location)
+        query_job = self.client.query(
+            cleaned, job_config=job_config, location=self.location
+        )
         rows = query_job.result(
             max_results=self.max_result_rows,
             timeout=self.query_timeout_seconds,
         )
-        bytes_processed = query_job.total_bytes_processed or dry_run.total_bytes_processed
+        bytes_processed = (
+            query_job.total_bytes_processed or dry_run.total_bytes_processed
+        )
         logger.info(
             "[REAL BigQuery] query ok job_id=%s bytes_processed=%s",
             query_job.job_id,
             bytes_processed,
         )
         return QueryResult(
-            rows=[{key: _json_safe(value) for key, value in dict(row).items()} for row in rows],
+            rows=[
+                {key: _json_safe(value) for key, value in dict(row).items()}
+                for row in rows
+            ],
             sql=cleaned,
             total_bytes_processed=bytes_processed,
         )
@@ -237,7 +283,10 @@ class RealBigQueryService:
         parts = table_name.replace("`", "").split(".")
         if len(parts) == 1:
             table_id = parts[0]
-        elif len(parts) == 3 and parts[:2] == [self.dataset_project_id, self.dataset_id]:
+        elif len(parts) == 3 and parts[:2] == [
+            self.dataset_project_id,
+            self.dataset_id,
+        ]:
             table_id = parts[2]
         else:
             raise ValueError("Table must be in the configured BigQuery dataset.")

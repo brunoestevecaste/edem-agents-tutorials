@@ -12,10 +12,12 @@ for name in ("tools.bigquery_mcp_tools", "services.bigquery_service"):
     _lg.setLevel(logging.INFO)
     if not _lg.handlers:
         _handler = logging.StreamHandler()
-        _handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s"))
+        _handler.setFormatter(
+            logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+        )
         _lg.addHandler(_handler)
     _lg.propagate = True
 
-from .agent import root_agent
+from .agent import root_agent  # noqa: E402
 
 __all__ = ["root_agent"]

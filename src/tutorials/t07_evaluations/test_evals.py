@@ -175,7 +175,10 @@ def test_all_metrics_combined():
                 "Score 1.0 if all three are present. "
                 "Deduct proportionally for each missing component (0.33 per missing item)."
             ),
-            evaluation_params=[LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
+            evaluation_params=[
+                LLMTestCaseParams.INPUT,
+                LLMTestCaseParams.ACTUAL_OUTPUT,
+            ],
             threshold=0.75,
             model=judge,
         ),

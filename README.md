@@ -55,6 +55,12 @@ export GOOGLE_CLOUD_LOCATION="global"
 export VERTEX_MODEL="gemini-2.5-flash-lite"
 ```
 
+Using .env file in bash:
+
+```bash
+set -a && source .env && set +a
+```
+
 ## Project structure
 
 ```text
@@ -107,6 +113,14 @@ uv run pytest src/tutorials/t07_evaluations/ -v
 
 Deploy a self-contained dice agent to Cloud Run and Vertex AI Agent Engine using `adk deploy`. See `src/tutorials/t08_deploy_gcp/README.md`.
 
+### 9. Local RAG Agent
+
+Download a PDF, build a local FAISS index in a notebook, then query it from an ADK agent using `LlamaIndexRetrieval`. See `src/tutorials/t09_local_rag_agent/README.md`.
+
+### 10. Vertex AI Search Agent
+
+Download a PDF, import it into a Vertex AI Search data store, then query it from an ADK agent using `VertexAiSearchTool` (model-native Gemini grounding). See `src/tutorials/t10_vertex_search_agent/README.md`.
+
 ## Notebooks
 
 Install notebook dependencies and start Jupyter:
@@ -116,4 +130,12 @@ uv sync --extra notebooks
 uv run jupyter notebook notebooks/
 ```
 
+For the local RAG notebook, install the RAG extra too:
+
+```bash
+uv sync --extra adk --extra notebooks --extra rag
+```
+
 - `notebooks/deploy_gcp_clients.ipynb`: call the deployed GCP agent from Cloud Run and Agent Engine.
+- `notebooks/local_rag_indexing.ipynb`: download a PDF from a URL, create chunks, build the local FAISS index, and test retrieval for tutorial 9.
+- `notebooks/vertex_search_indexing.ipynb`: download a PDF from a URL, upload it to GCS, import it into a Vertex AI Search data store for tutorial 10.

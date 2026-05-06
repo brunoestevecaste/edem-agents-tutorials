@@ -56,7 +56,9 @@ class MockRagService:
 
     def retrieve(self, query: str, top_k: int = 5) -> list[dict]:
         """Return documents using simple keyword-overlap scoring."""
-        terms = {token.strip("?,.!").lower() for token in query.split() if token.strip()}
+        terms = {
+            token.strip("?,.!").lower() for token in query.split() if token.strip()
+        }
         scored: list[tuple[int, RetrievedDocument]] = []
         for doc in self._docs:
             doc_terms = set(doc.content.lower().split())
@@ -82,4 +84,6 @@ class VertexRagService:
         2. Submit query embeddings/search against the corpus.
         3. Return normalized list[{id, source, content}].
         """
-        raise NotImplementedError("VertexRagService integration is not implemented yet.")
+        raise NotImplementedError(
+            "VertexRagService integration is not implemented yet."
+        )

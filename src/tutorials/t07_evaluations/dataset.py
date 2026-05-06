@@ -19,7 +19,9 @@ dataset = EvaluationDataset(
                 ToolCall(name="roll_die_agent"),
                 ToolCall(name="stats_agent"),
             ],
-            additional_metadata={"task_description": "Roll 5d6 and compute mean and standard deviation"},
+            additional_metadata={
+                "task_description": "Roll 5d6 and compute mean and standard deviation"
+            },
         ),
         Golden(
             input="Roll a 20-sided die 3 times, then compute mean and standard deviation",
@@ -31,7 +33,9 @@ dataset = EvaluationDataset(
                 ToolCall(name="roll_die_agent"),
                 ToolCall(name="stats_agent"),
             ],
-            additional_metadata={"task_description": "Roll 3d20 and compute statistics"},
+            additional_metadata={
+                "task_description": "Roll 3d20 and compute statistics"
+            },
         ),
         Golden(
             input="Roll a die once and tell me the result",
@@ -53,7 +57,9 @@ dataset = EvaluationDataset(
                 ToolCall(name="roll_die_agent"),
                 ToolCall(name="stats_agent"),
             ],
-            additional_metadata={"task_description": "Roll 10d6 and compute statistics"},
+            additional_metadata={
+                "task_description": "Roll 10d6 and compute statistics"
+            },
         ),
     ]
 )

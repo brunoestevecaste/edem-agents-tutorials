@@ -35,14 +35,19 @@ async def main() -> None:
 
             create_result = await session.call_tool(
                 "create_note",
-                {"title": "tutorial_note", "content": "Hello from standalone MCP client."},
+                {
+                    "title": "tutorial_note",
+                    "content": "Hello from standalone MCP client.",
+                },
             )
             _print_tool_result("create_note", create_result)
 
             list_result = await session.call_tool("list_notes", {})
             _print_tool_result("list_notes", list_result)
 
-            read_result = await session.call_tool("read_note", {"title": "tutorial_note"})
+            read_result = await session.call_tool(
+                "read_note", {"title": "tutorial_note"}
+            )
             _print_tool_result("read_note", read_result)
 
 

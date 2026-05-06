@@ -39,3 +39,39 @@ def get_model():
         return os.getenv("VERTEX_MODEL", "gemini-2.5-flash-lite")
 
     return os.getenv("GEMINI_MODEL", "gemma-3-27b-it")
+
+
+def get_embedding_model():
+    """Return the embedding model configured for the current provider."""
+    from llama_index.embeddings.google_genai import GoogleGenAIEmbedding
+
+    provider = os.getenv("MODEL_PROVIDER", "gemini").lower()
+    model_name = os.getenv("LOCAL_RAG_EMBEDDING_MODEL", "text-embedding-004")
+
+    if provider == "vertex":
+        project = os.getenv("GOOGLE_CLOUD_PROJECT", "").strip()
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "").strip()
+        if not project or not location:
+            raise RuntimeError(
+                "Vertex embeddings require GOOGLE_CLOUD_PROJECT and "
+                "GOOGLE_CLOUD_LOCATION env vars."
+            )
+
+        os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
+        return GoogleGenAIEmbedding(
+            model_name=model_name,
+            vertexai_config={"project": project, "location": location},
+        )
+
+    google_api_key = os.getenv("GOOGLE_API_KEY", "").strip()
+    if not google_api_key:
+        raise RuntimeError(
+            "Gemini API embeddings require GOOGLE_API_KEY. To use Vertex AI "
+            "embeddings, set MODEL_PROVIDER=vertex plus GOOGLE_CLOUD_PROJECT "
+            "and GOOGLE_CLOUD_LOCATION."
+        )
+
+    return GoogleGenAIEmbedding(
+        model_name=model_name,
+        api_key=google_api_key,
+    )

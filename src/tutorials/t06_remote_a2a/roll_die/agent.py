@@ -5,9 +5,6 @@ import random
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from google.adk import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
-from google.adk.examples.example import Example
-from google.adk.tools.example_tool import ExampleTool
-from google.genai import types
 
 try:
     from tutorials.model_config import get_model
@@ -23,6 +20,7 @@ except ModuleNotFoundError:
 def roll_die(sides: int) -> int:
     """Roll a die with the given number of sides. Returns the result (1 to sides)."""
     return random.randint(1, sides)
+
 
 root_agent = Agent(
     model=get_model(),

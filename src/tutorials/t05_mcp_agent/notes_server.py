@@ -25,7 +25,9 @@ def _note_path(title: str) -> Path:
     if not clean_title:
         raise ValueError("title cannot be empty")
 
-    safe_title = "".join(ch for ch in clean_title if ch.isalnum() or ch in ("-", "_", " ", "."))
+    safe_title = "".join(
+        ch for ch in clean_title if ch.isalnum() or ch in ("-", "_", " ", ".")
+    )
     safe_title = safe_title.strip().replace(" ", "_")
     if not safe_title:
         raise ValueError("title must contain letters or numbers")
