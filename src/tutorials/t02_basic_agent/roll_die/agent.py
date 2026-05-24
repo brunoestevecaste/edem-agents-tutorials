@@ -21,7 +21,7 @@ def roll_die(sides: int) -> int:
 
 
 root_agent = Agent(
-    model=get_model(),
+    model='gemini-2.5-flash',
     name="roll_die_agent",
     description="Rolls dice with a configurable number of sides.",
     instruction=(
