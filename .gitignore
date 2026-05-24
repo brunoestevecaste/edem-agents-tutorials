@@ -38,3 +38,6 @@ build/
 src/tutorials/t09_local_rag_agent/downloads/
 src/tutorials/t09_local_rag_agent/storage/
 src/tutorials/t10_vertex_search_agent/downloads/
+
+# Generated assignment outputs
+assignment_outputs/
