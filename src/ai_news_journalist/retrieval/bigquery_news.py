@@ -150,6 +150,46 @@ def _max_bytes_billed() -> int:
         raise ValueError("BIGQUERY_MAX_BYTES_BILLED must be an integer.") from exc
 
 
+def _mask_sql_literals(sql: str) -> str:
+    """Replace quoted SQL literal contents with spaces for safer validation."""
+    result: list[str] = []
+    index = 0
+
+    while index < len(sql):
+        char = sql[index]
+        if char not in {"'", '"', "`"}:
+            result.append(char)
+            index += 1
+            continue
+
+        quote = char
+        result.append(quote)
+        index += 1
+
+        while index < len(sql):
+            current = sql[index]
+
+            if current == "\\" and quote in {"'", '"'} and index + 1 < len(sql):
+                result.extend("  ")
+                index += 2
+                continue
+
+            if current == quote:
+                if index + 1 < len(sql) and sql[index + 1] == quote:
+                    result.extend("  ")
+                    index += 2
+                    continue
+
+                result.append(quote)
+                index += 1
+                break
+
+            result.append(" ")
+            index += 1
+
+    return "".join(result)
+
+
 def _bigquery_client():
     _load_env_file()
     bigquery = _get_bigquery_module()
@@ -162,12 +202,13 @@ def validate_read_only_sql(sql: str) -> None:
     """Validate that a SQL string is a single read-only SELECT query."""
     normalized = re.sub(r"/\*.*?\*/", " ", sql, flags=re.DOTALL)
     normalized = re.sub(r"--.*?$", " ", normalized, flags=re.MULTILINE).strip()
-    upper_sql = normalized.upper()
+    masked_sql = _mask_sql_literals(normalized)
+    upper_sql = masked_sql.upper()
 
     if not upper_sql.startswith("SELECT"):
         raise ValueError("Only SELECT queries are allowed.")
 
-    if ";" in normalized.rstrip(";"):
+    if ";" in masked_sql.rstrip(";"):
         raise ValueError("Only one SQL statement is allowed.")
 
     keyword_pattern = r"\b(" + "|".join(FORBIDDEN_SQL_KEYWORDS) + r")\b"

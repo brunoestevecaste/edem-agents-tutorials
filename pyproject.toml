@@ -5,6 +5,7 @@ description = "Agents tutorials and examples"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "google-cloud-bigquery>=3.0",
     "nest-asyncio[notebooks]>=1.6.0",
     "typing-extensions>=4.15.0",
 ]
