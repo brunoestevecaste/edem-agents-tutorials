@@ -55,7 +55,7 @@ def _load_retriever():
             "before starting this agent."
         )
 
-    embed_model = get_embedding_model()
+    embed_model =  get_embedding_model()
     vector_store = FaissVectorStore.from_persist_dir(str(storage_dir))
     storage_context = StorageContext.from_defaults(
         vector_store=vector_store,
